@@ -1,0 +1,59 @@
+---
+title: "Datos cualitativos"
+output: html_document
+---
+
+### Tablas de frecuencia unidimensionales
+
+Supongamos que tenemos los datos asociados a un par de variables cualitativas en un vector
+
+```{r}
+x = sample(1:10, size = 20, replace = TRUE)
+x # estas pueden ser bolitas numeradas que sacamos al azar de una caja
+
+resp = factor(sample(c("Si","No"), size = 12, replace = TRUE))
+resp
+```
+Podemos obtener la tabla de frecuencias asbsolutas con la función `table()`
+
+```{r}
+table(x)
+table(resp)
+```
+
+Para obtener los nombres de las columnas podemos emplear la funcion `names`
+
+```{r}
+names(table(x))
+names(table(resp))
+```
+
+Si queremos agregar mas niveles a la tabla, hay que transformar el vector en un factor con los niveles que deseamos.
+
+```{r}
+z = factor(x, levels = 1:15)
+
+table(z)
+```
+
+Para referirnos a una entrada de una tabla unidimensional, podemos usar su nombre o posición.
+
+```{r}
+# tercera columna de la tabla
+table(x)[3]
+# columna de la tabla con nombre 2
+table(x)["2"]
+#El doble de la columna con nombre 3
+2*table(x)["3"] 
+```
+
+Ademas podemos emplear la mayoria de funciones que se utilizan frecuentemente con vectores
+
+```{r}
+sum(table(x))
+sqrt(3*table(x))
+length(table(x))
+```
+
+
+
