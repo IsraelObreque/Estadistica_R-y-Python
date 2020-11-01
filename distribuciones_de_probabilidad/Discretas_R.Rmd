@@ -1,0 +1,30 @@
+---
+title: "Distribución de Bernoulli"
+output: html_document
+
+## Función de densidad 
+
+$$f(x) = (1-p)I_{\{0\}}(x)+pI_{\{1\}}(x) $$
+Sea $X = Be(p = 0.6)$
+
+```{r}
+library(Rlab)
+dbern(1,prob = 0.7)
+pbern(0,prob = 0.7)
+pbern(1,prob = 0.7)
+qbern(0.5, prob = 0.7)
+qbern(0.25, prob = 0.7)
+
+# generación de números aleatorios
+data = rbern(100, prob = 0.7)
+hist(data)
+
+```
+
+
+
+
+
+
+
+
