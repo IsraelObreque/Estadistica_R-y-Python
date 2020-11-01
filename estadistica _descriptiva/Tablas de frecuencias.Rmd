@@ -55,5 +55,54 @@ sqrt(3*table(x))
 length(table(x))
 ```
 
+### Frecuencias relativas
+$$f_i = \frac{n_i}{n}$$
+La tabla de frecuencias relativas de un vector se puede calcular aplicando la función `prop.table()` a su `table`. El resultado vuelve a ser una tabla de contingencia unidimensional.
+
+También podemos calcualar la tabla de frecuencias relativas por definición, dividiendo el resultado de la `table` por el número de observaciones.
+
+```{r}
+x = sample(1:10, size = 20, replace = TRUE)
+prop.table(table(x))
+```
+Podemos preguntar cuales son los niveles que tienen cierta frecuencia $n$ mediante `names(which(table(x)==n))`
+
+```{r}
+x = sample(1:15, size = 30, replace = TRUE)
+table(x)
+names(which(table(x) == 1))
+```
+
+En particular, `names(which(table(x)==max(table(x))))` nos da los niveles de frecuencia máxima, es decir, su *moda*
+
+```{r}
+x = sample(1:10, size = 20, replace = TRUE)
+table(x)
+names(which(table(x)==max(table(x))))
+
+```
+
+Otro ejemplo:
+
+```{r}
+m = rep("M",45)
+f = rep("F",54)
+genders  = c(m,f)
+#tabla de frecuencias
+table(genders)
+#tabla de frecuencias relativas
+prop.table(table(genders))
+# moda
+mode = function(d){
+  
+  names(which(table(genders)==max(table(genders))))
+}
+
+m_t = mode(genders)
+
+
+```
+
+La moda de los datos es: `r m_t`.
 
 
