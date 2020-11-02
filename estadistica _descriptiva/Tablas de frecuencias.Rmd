@@ -105,4 +105,144 @@ m_t = mode(genders)
 
 La moda de los datos es: `r m_t`.
 
+### Tablas de frecuencia bidimensionales
+
+la función `table()` también puede construir tablas de frecuencia conjuntas de dos o mas varibles
+
+```{r}
+respuesta = factor(sample(c("Si","No"), size  = 20, replace = TRUE))
+Sexo = sample(c("H","M"), size = length(respuesta), replace = TRUE)
+table(respuesta,Sexo) #(filas, columnas)
+table(Sexo, respuesta)
+# El mismo resultado anterior lo podemos obtener trasponiendo la tabla
+t(table(respuesta,Sexo))
+
+#para referirnos a una entrada
+
+#mediante índices
+table(respuesta,Sexo)[1,2]
+
+#mediante el nombre 
+
+table(respuesta,Sexo)["No","M"]
+```
+
+La tabla de frecuencias relativas globales se calcula aplicando directamente la función table
+
+```{r}
+prop.table(table(Sexo,respuesta)) # Global
+```
+
+Para obtener la tablas marginales, debemos usar el parámetro `margin` al aplicar la función `prop.table()` a la `table`. Con `margin = 1` obtenemos las frecuencias relativas de las filas y con `margin=2`, de las columnas.
+
+```{r}
+#Por sexo
+
+prop.table(table(Sexo,respuesta), margin = 1)
+
+#Por respuesta
+
+prop.table(table(Sexo,respuesta), margin = 2)
+
+```
+
+La función `CrossTable()` del paquete `gmodels` permite producir (especificando el parámetro `prop.chisq = FALSE`) un resumen de la tabla de frecuencias absolutas y las tres tablas de frecuencias relativas de dos variables en un formato adecuado para su visualización.
+
+### Paquete `gmodels`
+
+```{r}
+library(gmodels)
+sex = c("H","M","M","H","H","M","M")
+ans = c("S","N","S","S","N","N","S")
+CrossTable(sex, ans, prop.chisq = FALSE)
+```
+Una tabla de contingencia bidimensional es, básicamente, una matriz con algunos atributos extra. En particular, podemos usar sobre estas tablas la mayoría de las funciones para matrices que tengan sentido para tablas.
+
+```{r}
+colSums(table(sex,ans))
+rowSums(table(sex,ans))
+```
+
+## Ejemplo con tres dimensiones
+
+```{r}
+ans = sample(c("Si","No"), size = 150, replace = TRUE)
+sex = sample(c("H","M"), size = 150, replace = TRUE)
+place  = sample(c("Santiago", "Valparaiso","Concepción", "San Felipe", "Los Angeles"), size = 150, replace = TRUE)
+table(sex, ans, place)
+# alternativas
+
+ftable(sex, ans,place)
+
+ftable(sex,ans,place, col.vars = c("sex","ans"))
+```
+## Filtrar las tablas
+
+```{r}
+table(sex, ans, place)["M","Si", "Los Angeles"]
+table(sex,ans,place)[,"No","San Felipe"]
+table(sex,ans,place)[,"Si",]
+```
+
+### Frecuencias relativas
+
+```{r}
+prop.table(table(sex,ans,place)) # frecuencias relativas globales
+
+prop.table(table(sex, ans, place),margin = 3) #frecuencia relativa marginal por lugar
+
+prop.table(table(sex,ans, place), margin = c(1,3)) # frecuencia relativa marginal por sexo y país
+
+#alternativa
+
+ftable(prop.table(table(sex,ans,place)))
+```
+### Ejemplo color de ojos y pelo
+
+```{r}
+HairEyeColor
+# total de individuos
+sum(HairEyeColor)
+
+prop.table(HairEyeColor, margin = 3)
+
+prop.table(HairEyeColor, margin = c(1,2))
+```
+Si queremos cambiar el orden de las columnas, podemos hacerlo mediante `aperm`
+
+```{r}
+aperm(HairEyeColor, perm = c("Sex","Hair","Eye") )
+```
+
+
+
+
+```{r}
+energy = read.table("https://raw.githubusercontent.com/IsraelObreque/Estadistica_R-y-Python/main/data/EnergyDrink", header = TRUE)
+str(energy)
+head(energy,4)
+summary(energy)
+
+# tablas de frecuencias absolutas
+apply(energy, MARGIN = 2, FUN = table)
+
+# Para obtener una tabla en particular
+apply(energy,MARGIN = 2,FUN = table)$sexo
+
+# de forma equivalente
+table(energy$sexo)
+```
+
+Si aplicamos la función table() a un data frame de variables cualitativas, obtenemos su tabla de frecuencias absolutas, con las variables ordenadas tal y como aparecen en el data frame.
+
+```{r}
+table(energy)
+ftable(energy)
+
+# tambien podemos seleccionar las filas que deseamos utilizar para nuestra tabla
+table(energy[c(1,3)])
+```
+
+
+
 

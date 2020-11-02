@@ -1,0 +1,40 @@
+---
+title: "Diagramas"
+output: html_document
+---
+
+### Diagramas de barras
+
+```{r}
+h = rep("H",34)
+m = rep("M",45)
+sexo = c(h,m)
+
+par(mfrow = c(1,2))
+# diagrama de barras
+barplot(table(sexo), col = c("lightblue","pink"), main = "Frecuencia absoluta")
+#diagrama de barras frecuencia relativa
+barplot(prop.table(table(sexo)), col = c("lightblue", "pink"), main ="Frecuencia Relativa")
+```
+
+```{r}
+h = rep("H",55)
+m = rep("M",45)
+sexo = c(h,m)
+resp = sample(c("Si","No"), size = 100, replace = TRUE)
+
+barplot(table(sexo,resp), beside = TRUE, legend.text = TRUE)
+
+barplot(table(resp,sexo), beside = TRUE, names = c("Men","Women"), col = c("yellow","lightblue"), legend.text = c("No","Yes"))
+```
+
+### Diagramas circulares
+
+```{r}
+x = sample(c(1:5),size  = 20, replace = TRUE)
+pie(table(x), main = "Diagrama circular de la variable x")
+
+resp = sample(c("Si","No"), size = 20, replace = TRUE)
+pie(table(resp), main = "Diagrama circular de la variable respuesta")
+```
+
