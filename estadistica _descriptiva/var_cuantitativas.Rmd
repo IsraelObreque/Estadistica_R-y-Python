@@ -1,0 +1,107 @@
+---
+title: "Variables Cuantitavas"
+output:
+  html_document:
+    df_print: paged
+---
+
+
+```{r}
+edad = c(15,18,25,40,30,29,56,40,13,27,42,23,11,26,25,32,30,40,33,29)
+#frecuencia absoluta
+table(edad)
+#frecuencia relativa
+round(prop.table(edad),3)
+#frecuencias acumuladas
+cumsum(table(edad))
+```
+
+```{r}
+set.seed(1995)
+dados = sample(1:6,25,replace = TRUE)
+dados
+
+#frecuencia absoluta
+table(dados)
+
+#frecuencia relativa
+round(prop.table(dados),2)
+
+#frecuencias absolutas acumuladas
+
+cumsum(table(dados))
+
+#frecuencias relativas acumuladas
+
+round(prop.table(table(dados)),2)
+```
+Para visualizar mejor la información podemos construir un data frame que contenga toda la información de las frecuencias.
+
+```{r}
+dados.df = data.frame(puntuacion = 1:6,
+                      Fr.abs = as.vector(table(dados)),
+                      Fr.rel = as.vector(round(prop.table(table(dados)),2)),
+                      Fr.acu = as.vector(cumsum(table(dados))),
+                      Fr.racu = as.vector(round(cumsum(prop.table(table(dados))),2))) 
+dados.df
+```
+
+
+## Medidas de centralización
+
+Para nuestra muestra de edades
+```{r}
+
+#media aritmética
+mean(edad)
+
+#mediana
+
+median(edad)
+
+#moda
+
+as.numeric(names(which(table(edad) == max(table(edad)))))
+```
+
+## Cuantiles
+
+Consideremos un experimento en el que lanzamos 50 veces un dado de 4 caras y obtenemos los siguientes resultados
+
+```{r}
+set.seed(260798)
+dado = sample(1:4,50, replace = TRUE)
+set.seed(NULL)
+length(dado)
+
+dado = sort(dado)
+dado
+
+#tabla de frecuencias
+
+
+df_dado = data.frame(puntuacion = 1:4,
+                      Fr_abs = as.vector(table(dado)),
+                      Fr_rel = as.vector(round(prop.table(table(dado)),2)),
+                      Fr_acu = as.vector(cumsum(table(dado))),
+                      Fr_racu = as.vector(round(cumsum(prop.table(table(dado))),2))) 
+
+df_dado
+```
+ Si nos piden el cuantil $q_{0.3}$, sabemos que este es el primer elemento de la lista cuya frecuencia relativa acumulada es mayor o igual a 0.3. Esto corresponde al número 1.
+ 
+ Para calcular los cuantiles de orden $p$ de una variable cuantitativa, se utiliza la instrucción `quantile(x,p)`, la cual dispone de 9 métodos diferentes que se especifican con el parámetro `type`. 
+ 
+```{r}
+#Ejemplo
+set.seed(1995)
+dados_2  = sample(1:6,15, replace = TRUE)
+dados_2
+
+set.seed(NULL)
+quantile(dados_2,0.25) # primer cuartil
+quantile(dados_2,0.8)
+```
+ 
+
+
